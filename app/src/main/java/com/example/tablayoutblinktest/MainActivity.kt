@@ -2,6 +2,7 @@ package com.example.tablayoutblinktest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -10,6 +11,8 @@ import com.example.tablayoutblinktest.model.TabStatus
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+
+const val TAG = "jms8732"
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -66,6 +69,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                Log.e(
+                    TAG,
+                    "Offset: $positionOffset\n"
+                )
                 binding.tabLayout1.setScrollPosition(position, positionOffset, true, true)
 
                 if (positionOffset == 0.0f) {
@@ -74,7 +81,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
             }
 
-            override fun onPageSelected(position: Int) {}
+            override fun onPageSelected(position: Int) {
+                Log.e(TAG, "onPageSelected: ")
+            }
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
