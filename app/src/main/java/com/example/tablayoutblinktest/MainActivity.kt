@@ -33,7 +33,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initTabLayout() {
         bind {
-
             with(tabLayout) {
                 addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -57,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager1) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.customView = CustomTabView(this).apply {
                 status = TabStatus("테스트 $position", position == 0)
             }
@@ -77,18 +76,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
                 addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
-                        Log.e(TAG, "onTabSelected: ${tab?.position}")
+                        //Log.e(TAG, "onTabSelected: ${tab?.position}")
                         (tab?.customView as? CustomTabView)?.bind {
                             status = status.copy(
                                 status = true
                             )
                         }
-
-                        binding.viewPager.setCurrentItem(tab?.position ?: 0, true)
                     }
 
                     override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        Log.e(TAG, "onTabUnselected: ${tab?.position}", )
+                        //Log.e(TAG, "onTabUnselected: ${tab?.position}")
                         (tab?.customView as? CustomTabView)?.bind {
                             status = status.copy(
                                 status = false
@@ -102,23 +99,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPager1.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
+                Log.e(TAG, "[onPageScrolled]: $positionOffset position: $position", )
                 binding.tabLayout1.setScrollPosition(position, positionOffset, true, true)
                 if (positionOffset == 0.0f) {
-                    val tab = binding.tabLayout1.getTabAt(position)
-                    binding.tabLayout1.selectTab(tab)
-                }
+                val tab = binding.tabLayout1.getTabAt(position)
+                binding.tabLayout1.selectTab(tab)
+            }
             }
 
             override fun onPageSelected(position: Int) {
-                /*Log.e(TAG, "onPageSelected: $position")
-                val tab = binding.tabLayout1.getTabAt(position)
-                binding.tabLayout1.selectTab(tab,false)*/
+                Log.e(TAG, "[onPageSelected]: $position")
+                /*val tab = binding.tabLayout1.getTabAt(position)
+                binding.tabLayout1.selectTab(tab, true)
+                binding.viewPager1.setCurrentItem(tab?.position ?: 0, true)*/
             }
 
             override fun onPageScrollStateChanged(state: Int) {}

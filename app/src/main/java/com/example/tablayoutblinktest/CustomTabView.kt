@@ -2,9 +2,11 @@ package com.example.tablayoutblinktest
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Typeface
 import android.graphics.fonts.FontFamily
 import android.graphics.fonts.FontStyle
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -25,8 +27,15 @@ class CustomTabView @JvmOverloads constructor(
 
             TextViewCompat.setTextAppearance(
                 binding.textViewTab, when (field.status) {
-                    true  -> FontStyle.FONT_SLANT_ITALIC
+                    true -> FontStyle.FONT_SLANT_ITALIC
                     false -> FontStyle.FONT_WEIGHT_EXTRA_BOLD
+                }
+            )
+
+            binding.textViewTab.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP, when (field.status) {
+                    true -> 20f
+                    false -> 13f
                 }
             )
 
